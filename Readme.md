@@ -10,7 +10,7 @@ This has been developped using Node, React, and [minikube](https://kubernetes.io
 
 - Start minikube : `minikube start`
 - Type `minikube ip` to show the IP held by minikube
-- Add this address to your `etc/hosts` followed by the domain `minikube.com` (eg: `192.168.49.2     minikube.com`)
+- Add this address to your `/etc/hosts` followed by the domain `minikube.com` (eg: `192.168.49.2     minikube.com`)
 
 
 ## Start in production
