@@ -1,0 +1,67 @@
+# Skaffold will allow you to avoid restarting deployments
+# and rebuilding images manually whenever you make changes in your code.
+# This is especially useful in dev stage
+
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/* # location of the config files
+build:
+  local:
+    push: false # push to a registry
+  artifacts:
+    - image: applinh/client
+      context: client
+      docker:
+        dockerfile: Dockerfile # Dockerfile name
+      sync:
+        manual:
+          - src: 'src/**/*.js' # Will look at any modification whithin these files. If so, it will automatically rebuild and redeploy
+            dest: .
+
+    - image: applinh/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    
+    - image: applinh/comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+    - image: applinh/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    
+    - image: applinh/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    
+    - image: applinh/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .

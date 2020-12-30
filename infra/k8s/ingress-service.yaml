@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true' # Allows to use regex in paths
+spec:
+  rules:
+    - host: minikube.com # => domain name at which your app is hosted (have a look at the readme)
+      http:
+        paths:
+          - path: /posts/create # if you query minikube.com/posts/create, it will it on that
+            backend:
+              serviceName:  posts-clusterip-service
+              servicePort: 4000
+          - path: /posts
+            backend:
+              serviceName:  query-clusterip-service
+              servicePort: 4002
+          - path: /posts/?(.*)/comments # ?(.*) is a regex that let the "id" pass through. DON'T FORGET the regex annotation up there.
+            backend:
+              serviceName:  comments-clusterip-service
+              servicePort: 4001
+          - path: /?(.*) # matches any route for the client. YOU HAVE TO put this at the VERY END, or it would override all paths below it
+            backend:
+              serviceName:  client-clusterip-service
+              servicePort: 80
+          
+          
+          

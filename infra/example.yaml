@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod # Kind of object
+metadata:
+  name: posts # Name of the object
+
+spec: # List of configuration options
+  containers: # List of containers inside the pod
+  - name: posts
+    image: applinh/posts
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 4000

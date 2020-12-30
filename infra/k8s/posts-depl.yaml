@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-depl
+spec:
+  replicas: 1 # Number of pods running a particular image
+  selector: # Selects the pods 
+    matchLabels:
+      app: posts # ... with the label "app: posts" (key: value)
+  template: # Applied configuration to the pods
+    metadata:
+      labels:
+        app: posts # gives the "app: posts" kv to this configuration
+    spec:
+      containers:
+        - name: posts
+          image: applinh/posts
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-clusterip-service
+spec:
+  selector:
+    app: posts
+  type: ClusterIP # Default type for a service is already ClusterIP
+  ports:
+  - name: posts
+    protocol: TCP
+    port: 4000
+    targetPort: 4000
